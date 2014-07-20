@@ -42,12 +42,14 @@ public class Point implements Comparable<Point> {
     // slope between this point and that point
     public double slopeTo(Point that) {
         /* YOUR CODE HERE */
+        return (that.x - this.x) == 0 ? Double.NaN : (that.y - this.y);
     }
 
     // is this point lexicographically smaller than that one?
     // comparing y-coordinates and breaking ties by x-coordinates
     public int compareTo(Point that) {
         /* YOUR CODE HERE */
+        return 1;
     }
 
     // return string representation of this point
