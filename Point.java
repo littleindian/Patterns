@@ -46,14 +46,14 @@ public class Point implements Comparable<Point> {
     // slope between this point and that point
     public double slopeTo(Point that) {
         /* YOUR CODE HERE */
-        return (that.x - this.x) == 0 ? Double.NaN : (that.y - this.y);
+        return (that.x - this.x) == 0 ? Double.NaN : (that.y - this.y)/(that.x - this.x);
     }
 
     // is this point lexicographically smaller than that one?
     // comparing y-coordinates and breaking ties by x-coordinates
     public int compareTo(Point that) {
         /* YOUR CODE HERE */
-        return 1;
+        return (this.y < that.y) || ((this.y == that.y) && (this.x < that.x)) ? -1 : 1;
     }
 
     // return string representation of this point
@@ -62,6 +62,23 @@ public class Point implements Comparable<Point> {
         return "(" + x + ", " + y + ")";
     }
 
+    public static void sort(Object[] a, Comparator comparator) {
+        int N = a.length;
+        for (int i = 0; i < N; i++) 
+            for (int j = i; j > 0 && less(comparator, a[j], a[j-1]); j--)  
+                 exch(a, j, j-1);
+    }
+    
+    private static boolean less(Comparator c, Object v, Object w) {
+        return c.compare(v, w) < 0;
+    }
+    
+    private static void exch(Object[] a, int i, int j) {
+        Object swap = a[i];
+        a[i] = a[j];
+        a[j] = swap;
+    }
+    
     // unit test
     public static void main(String[] args) {
         /* YOUR CODE HERE */
