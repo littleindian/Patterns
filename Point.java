@@ -82,5 +82,11 @@ public class Point implements Comparable<Point> {
     // unit test
     public static void main(String[] args) {
         /* YOUR CODE HERE */
+        int p, q, numPoints = StdIn.readInt();
+        for (int i = 1; i <= numPoints; i+=2) {
+            p = StdIn.readInt();
+            q = StdIn.readInt();
+            StdOut.printf("p = %d, q = %d\n", p, q);
+        }
     }
 }
