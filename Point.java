@@ -10,7 +10,7 @@
  *
  *************************************************************************/
 
-import java.util.Comparator;
+import java.util.*;
 
 public class Point implements Comparable<Point> {
 
@@ -46,7 +46,15 @@ public class Point implements Comparable<Point> {
     // slope between this point and that point
     public double slopeTo(Point that) {
         /* YOUR CODE HERE */
-        return (that.x - this.x) == 0 ? Double.NaN : (that.y - this.y)/(that.x - this.x);
+        double xdiff = that.x - this.x;
+        double ydiff = that.y - this.y;
+        
+        if (xdiff == 0) {
+            if (ydiff == 0) return -Double.NaN;
+            return Double.NaN;
+        }
+        
+        return ydiff/xdiff;
     }
 
     // is this point lexicographically smaller than that one?
@@ -62,14 +70,14 @@ public class Point implements Comparable<Point> {
         return "(" + x + ", " + y + ")";
     }
 
-    public static void sort(Object[] a, Comparator comparator) {
+    public static void sort(Point[] a, Comparator<Point> comparator) {
         int N = a.length;
         for (int i = 0; i < N; i++) 
             for (int j = i; j > 0 && less(comparator, a[j], a[j-1]); j--)  
                  exch(a, j, j-1);
     }
     
-    private static boolean less(Comparator c, Object v, Object w) {
+    private static boolean less(Comparator<Point> c, Point v, Point w) {
         return c.compare(v, w) < 0;
     }
     
@@ -82,11 +90,38 @@ public class Point implements Comparable<Point> {
     // unit test
     public static void main(String[] args) {
         /* YOUR CODE HERE */
-        int p, q, numPoints = StdIn.readInt();
-        for (int i = 1; i <= numPoints; i+=2) {
-            p = StdIn.readInt();
-            q = StdIn.readInt();
-            StdOut.printf("p = %d, q = %d\n", p, q);
+        int x, y, numPoints = StdIn.readInt();
+        if (numPoints > 0) {
+            Point[] pointArr = new Point[numPoints];
+            for (int i = 1; i <= numPoints; i++) {
+                x = StdIn.readInt();
+                y = StdIn.readInt();
+                pointArr[i - 1] = new Point(x, y);
+                StdOut.printf("new point is %s\n", pointArr[i - 1].toString());
+            }
+//            Arrays.sort(pointArr);
+//            for (int i = 0; i < pointArr.length - 1; i++) {
+//                StdOut.printf("point : %s\n", pointArr[i].toString());
+//                pointArr[i].drawTo(pointArr[i + 1]);
+//            }
+            int N = pointArr.length;
+            Point p, q, r, s;
+            for (int i = 0; i < N; i++) {
+                for (int j = i; j < N; j++) { 
+                    for (int k = j; k < N; k++) {
+                        for (int m = k; m < N; m++) {
+                            if ((i != j) && (j != k) && (k != m) && (k != i)) {
+                                p = pointArr[i]; 
+                                q = pointArr[j]; 
+                                r = pointArr[k];
+                                s = pointArr[m];
+                                if ((p.slopeTo(q) == p.slopeTo(r)) && (p.slopeTo(q) == p.slopeTo(s)))
+                                    StdOut.printf("p = %s, q = %s, r = %s, s = %s\n", p.toString(), q.toString(), r.toString(), s.toString());
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
